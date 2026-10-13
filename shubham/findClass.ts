@@ -10,7 +10,11 @@ type Grade = 'Fail' | 'Pass' | 'Second Class' | 'First Class' | 'First Class wit
 
 
  function findClassV2(percentage: number): Grade {
-  if (percentage >= 0 && percentage <= 100) {
+  if (!Number.isFinite(percentage)) {
+    throw new Error('Invalid percentage');
+  }
+
+  if (percentage < 0 || percentage > 100) {
     throw new Error('Percentage must be between 0 and 100');
   }
 
@@ -22,7 +26,7 @@ type Grade = 'Fail' | 'Pass' | 'Second Class' | 'First Class' | 'First Class wit
 }
 
 function findClassV1(percentage: number): string {
-  if (percentage >0 && percentage <= 35) {
+  if (percentage >=0 && percentage <= 35) {
     return 'Fail';
   } else if (percentage > 35 && percentage <=50) {
     return 'Pass';
@@ -43,8 +47,14 @@ const classResult3: string = findClassV1(50);
 const classResult4: string = findClassV1(60);
 const classResult5: string = findClassV1(70);
 const classResult6: string = findClassV1(100);
-const classResult7: string = findClassV2(105);
-const classResult8: string = findClassV2(-5);
+
+try {
+  console.log(findClassV2(105));
+} catch (error) {
+  if (error instanceof Error) {
+    console.error(error.message); 
+  }
+}
 
 console.log(`The class result for 30% is: ${classResult1}`);
 console.log(`The class result for 35% is: ${classResult2}`);
@@ -52,5 +62,3 @@ console.log(`The class result for 50% is: ${classResult3}`);
 console.log(`The class result for 60% is: ${classResult4}`);
 console.log(`The class result for 70% is: ${classResult5}`);
 console.log(`The class result for 100% is: ${classResult6}`);
-console.log(`The class result for 105% is: ${classResult7}`);
-console.log(`The class result for -5% is: ${classResult8}`);
